@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Dilation-FasterRCNN" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Dilation_FasterRCNN" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Distill_GID_detectron2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/RepDistiller" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/detectron2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/detectron2-main" vcs="Git" />
+  </component>
+</project>
