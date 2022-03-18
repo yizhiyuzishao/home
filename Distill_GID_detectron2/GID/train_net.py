@@ -199,6 +199,8 @@ def setup(args):
     # For Distillation
     cfg.DISTILL.TEACHER_CFG.merge_from_file(cfg.DISTILL.TEACHER_YAML)
     cfg.DISTILL.STUDENT_CFG.merge_from_file(cfg.DISTILL.STUDENT_YAML)
+    #cfg.DISTILL.TEACHER_CFG.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res101/output_1x_smooth_l1/model_final.pth") 
+    #cfg.DISTILL.STUDENT_CFG.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res50/output_2x_smooth_l1/model_final.pth") 
     cfg.TEST.EVAL_PERIOD = 5000
     cfg.SOLVER.IMS_PER_BATCH = 4
     cfg.DATALOADER.NUM_WORKERS = 10

@@ -40,7 +40,7 @@ from detectron2.evaluation import (
 from detectron2.modeling import GeneralizedRCNNWithTTA
 from detectron2.data import DatasetCatalog, MetadataCatalog
 from detectron2.data.datasets.coco import load_coco_json
-DATASET_ROOT = '/mnt/GZY/GZY1/detectron2/data/datasets/coco'
+DATASET_ROOT = '/home/ps/DiskA/project/GZY1/detectron2/data/datasets/coco'
 ANN_ROOT = os.path.join(DATASET_ROOT , 'annontations')
 
 TRAIN_PATH = os.path.join(DATASET_ROOT, 'images')
@@ -142,7 +142,7 @@ def setup(args):
     """
     cfg = get_cfg()
     # cfg.merge_from_file(args.config_file)
-    cfg.merge_from_file("/mnt/GZY/GZY1/Distill_GID_detectron2/RetinaNet_Res50/config/RetinaNet_2x_smooth_l1.yaml")
+    cfg.merge_from_file("/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res50/config/Retinanet-18.yaml")
     cfg.merge_from_list(args.opts)
     cfg.DATASETS.TRAIN = ("coco_train",)
     cfg.DATASETS.TEST = ("coco_val",)
@@ -153,8 +153,9 @@ def setup(args):
     cfg.INPUT.MIN_SIZE_TRAIN = (512, 768)
     cfg.INPUT.MIN_SIZE_TEST = 640
     cfg.INPUT.MIN_SIZE_TRAIN_SAMPLING = 'range'
-    ITERS_IN_ONE_EPOCH = int(3000 /cfg.SOLVER.IMS_PER_BATCH)
-    cfg.MODEL.WEIGHTS = "/mnt/GZY/GZY1/detectron2/tools/R-50.pkl"
+    ITERS_IN_ONE_EPOCH = int(4000 /cfg.SOLVER.IMS_PER_BATCH)
+    #cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/model_final_bfca0b.pkl") 
+    #cfg.MODEL.WEIGHTS = "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res50/R-50.pkl"
     cfg.SOLVER.MAX_ITER = (ITERS_IN_ONE_EPOCH * 12) - 1  # 12EPOCHS
     cfg.SOLVER.BASE_LR = 0.002  # initial learning rate
     cfg.SOLVER.MOMENTUM = 0.9  # optimizer

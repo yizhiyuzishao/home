@@ -20,8 +20,8 @@ import logging
 import os
 from collections import OrderedDict
 import torch
-
-import detectron2.utils.comm as comm
+import detectron2
+from detectron2.utils import comm as comm
 from detectron2.checkpoint import DetectionCheckpointer
 from detectron2.config import get_cfg
 from detectron2.data import MetadataCatalog
@@ -152,12 +152,12 @@ def setup(args):
     cfg.INPUT.MIN_SIZE_TEST = 640
     cfg.INPUT.MIN_SIZE_TRAIN_SAMPLING = 'range'
     ITERS_IN_ONE_EPOCH = int(3000/ cfg.SOLVER.IMS_PER_BATCH)
-    cfg.MODEL.WEIGHTS = "/home/ps/DiskA/project/GZY1/R-101.pkl"
+    cfg.MODEL.WEIGHTS = "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res101/R-101.pkl"
     cfg.SOLVER.MAX_ITER = (ITERS_IN_ONE_EPOCH * 12) - 1  # 12EPOCHS
     cfg.SOLVER.BASE_LR = 0.002  # initial learning rate
     cfg.SOLVER.MOMENTUM = 0.9  # optimizer
     cfg.SOLVER.WEIGHT_DECAY = 0.0001
-    cfg.SOLVER.WEIGHT_DECAY_NORM = 0.0  # weight
+
     cfg.SOLVER.GAMMA = 0.1  # learning rate decay rates
     cfg.SOLVER.STEPS = (7000,)
     cfg.SOLVER.WARMUP_FACTOR = 1.0 / 1000

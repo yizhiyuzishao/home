@@ -2,11 +2,14 @@ _BASE_: "Base-RetinaNet.yaml"
 INPUT:
   MIN_SIZE_TRAIN: (800,)
 MODEL:
-  WEIGHTS: "/home/ps/DiskA/project/GZY1/detectron2/tools/R-50.pkl"
+  WEIGHTS: "/home/ps/DiskA/project/GZY1/model_final_bfca0b.pkl"
   RESNETS:
     DEPTH: 50
   RETINANET:
     SMOOTH_L1_LOSS_BETA: 0.1
+  ROI_HEADS:
+    NMS_THRESH_TEST: 0.4
+    SCORE_THRESH_TEST : 0.6
 SOLVER:
   IMS_PER_BATCH: 16
   BASE_LR: 0.01  # Note that RetinaNet uses a different default learning rate

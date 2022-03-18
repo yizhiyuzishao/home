@@ -12,6 +12,9 @@ MODEL:
     IOU_THRESHOLDS: [0.4, 0.5]
     IOU_LABELS: [0, -1, 1]
     SMOOTH_L1_LOSS_BETA: 0.0
+  ROI_HEADS:
+    NMS_THRESH_TEST: 0.4
+    SCORE_THRESH_TEST: 0.5 
 DATASETS:
   TRAIN: ("coco_train",)
   TEST: ("coco_val",)

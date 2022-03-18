@@ -9,7 +9,7 @@ y2 = y1.twinx()
 y1.set_ylim(0,1,0)
 parsed = []
 
-with open('/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res50/output_2x_smooth_l1/metrics.json') as f:
+with open('/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/GID/output_retina_res101_Res50_2x/metrics.json') as f:
     try:
         for line in f:
             parsed.append(json.loads(line))
@@ -17,7 +17,6 @@ with open('/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res50/ou
         print("json format is net correct")
         exit(1)
     _iter = [j['iteration'] for j in parsed]
-
     _loss_bbox = [j['loss_box_reg'] for j in parsed]
     _loss_cls = [j['loss_cls'] for j in parsed]
     _loss = [j['total_loss'] for j in parsed]
