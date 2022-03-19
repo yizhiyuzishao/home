@@ -43,6 +43,7 @@ from detectron2.evaluation import (
 )
 from detectron2.modeling import GeneralizedRCNNWithTTA
 from gid.config import add_distill_cfg
+from detectron2.engine import HookBase
 from detectron2.data import DatasetCatalog, MetadataCatalog
 from detectron2.data.datasets.coco import load_coco_json
 DATASET_ROOT = '/home/ps/DiskA/project/GZY1/detectron2/data/datasets/coco'
@@ -109,6 +110,37 @@ class DefaultTrainerDistill(DefaultTrainer):
             # The checkpoint stores the training iteration that just finished, thus we start
             # at the next iteration
             self.start_iter = self.iter + 1
+#保存最佳模型
+class BestCheckpointer(HookBase):
+  def __init__(self):
+      super().__init__()
+
+  def after_step(self):
+    # No way to use **kwargs
+
+    ##ONly do this analys when trainer.iter is divisle by checkpoint_epochs
+    curr_val = self.trainer.storage.latest().get('bbox/AP50', 0)
+    '''这里做了小改动'''
+    import math
+    if type(curr_val) != int:
+        curr_val = curr_val[0]
+        if math.isnan(curr_val):
+            curr_val = 0
+
+    try:
+        _ = self.trainer.storage.history('max_bbox/AP50')
+    except:
+        self.trainer.storage.put_scalar('max_bbox/AP50', curr_val)
+
+    max_val = self.trainer.storage.history('max_bbox/AP50')._data[-1][0]
+
+    #print(curr_val, max_val)
+    if curr_val > max_val:
+        print("\n%s > %s要存！！\n"%(curr_val,max_val))
+        self.trainer.storage.put_scalar('max_bbox/AP50', curr_val)
+        self.trainer.checkpointer.save("model_best")
+        #self.step(self.trainer.iter)
+
 
 
 class Trainer(DefaultTrainerDistill):
@@ -230,12 +262,16 @@ def main(args):
     consider writing your own training loop (see plain_train_net.py) or
     subclassing the trainer.
     """
+    #os.makedirs(cfg.OUTPUT_DIR, exist_ok=True)
     trainer = Trainer(cfg)
+    #trainer.register_hooks([BestCheckpointer()])
     trainer.resume_or_load(resume=args.resume)
+    #trainer.resume_or_load(resume=False)
     if cfg.TEST.AUG.ENABLED:
         trainer.register_hooks(
            [hooks.EvalHook(0, lambda: trainer.test_with_TTA(cfg, trainer.model))]
-       )
+       )    
+    print(cfg)
     return trainer.train()
 
 
