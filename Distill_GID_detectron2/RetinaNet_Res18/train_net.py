@@ -153,11 +153,12 @@ def setup(args):
     cfg.INPUT.MIN_SIZE_TRAIN = (512, 768)
     cfg.INPUT.MIN_SIZE_TEST = 640
     cfg.INPUT.MIN_SIZE_TRAIN_SAMPLING = 'range'
-    ITERS_IN_ONE_EPOCH = int(4000 /cfg.SOLVER.IMS_PER_BATCH)
+    ITERS_IN_ONE_EPOCH = int(10000 /cfg.SOLVER.IMS_PER_BATCH)
+    cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/output_res18/model_final.pth") 
     #cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/model_final_bfca0b.pkl") 
     #cfg.MODEL.WEIGHTS = "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res50/R-50.pkl"
     cfg.SOLVER.MAX_ITER = (ITERS_IN_ONE_EPOCH * 12) - 1  # 12EPOCHS
-    cfg.SOLVER.BASE_LR = 0.002  # initial learning rate
+    cfg.SOLVER.BASE_LR = 0.001  # initial learning rate
     cfg.SOLVER.MOMENTUM = 0.9  # optimizer
     cfg.SOLVER.WEIGHT_DECAY = 0.0001
     cfg.SOLVER.WEIGHT_DECAY_NORM = 0.0  # weight
@@ -176,8 +177,6 @@ def setup(args):
 
 def main(args):
     cfg = setup(args)
-    model = Trainer.build_model(cfg)
-    print (model)
     if args.eval_only:
         model = Trainer.build_model(cfg)
         DetectionCheckpointer(model, save_dir=cfg.OUTPUT_DIR).resume_or_load(

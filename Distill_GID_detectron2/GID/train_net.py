@@ -191,7 +191,7 @@ def setup(args):
     """
     cfg = get_cfg()
     cfg = add_distill_cfg(cfg)
-    cfg.merge_from_file("/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/GID/config/Distill_RetinaNet_T_Res101_S_Res50_2x.yaml")
+    cfg.merge_from_file("/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/GID/config/Distill_retinanet_T_res101_S_res18.yaml")
 
     cfg.merge_from_list(args.opts)
     cfg.DATASETS.TRAIN = ("coco_train",)

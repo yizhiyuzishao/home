@@ -1,4 +1,5 @@
 from pyexpat import model
+import torch
 import numpy as np
 import cv2
 import os 
@@ -12,6 +13,7 @@ from detectron2.modeling import build_model
 from detectron2.engine import DefaultPredictor
 from detectron2.config import get_cfg
 from detectron2.utils.visualizer import Visualizer
+from detectron2.utils.visualizer import ColorMode
 from detectron2.data import MetadataCatalog
 from detectron2.data import DatasetCatalog, MetadataCatalog
 from detectron2.data.datasets.coco import load_coco_json
@@ -31,7 +33,7 @@ PREDEFINED_SPLITS_DATASET = {
     "coco_test": (VAL_PATH, VAL_JSON),
 }
 im_folder= '/home/ps/DiskA/project/GZY1/detectron2/data/datasets/coco/images'
-save_folder = '/home/ps/DiskA/project/GZY1/output'
+save_folder = '/home/ps/DiskA/project/GZY1/output_res101-res18'
 # register dataset
 def plain_register_dataset():
     # register dataset to dataset catalog,register metadata to metadata catalog and set attribute
@@ -58,7 +60,7 @@ for im_file in os.listdir(im_folder):
   dpi = 500
   cfg = get_cfg()
   cfg = add_distill_cfg(cfg)
-  cfg.merge_from_file('/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/GID/config/Distill_RetinaNet_T_Res101_S_Res50_2x.yaml')
+  cfg.merge_from_file('/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/GID/config/Distill_retinanet_T_res101_S_res18.yaml')
   cfg.DISTILL.TEACHER_CFG.merge_from_file(cfg.DISTILL.TEACHER_YAML)
   cfg.DISTILL.STUDENT_CFG.merge_from_file(cfg.DISTILL.STUDENT_YAML)
   cfg.MODEL.ROI_HEADS.NMS_THRESH_TEST = 0.4
@@ -67,15 +69,16 @@ for im_file in os.listdir(im_folder):
   cfg.MODEL.ROI_HEADS.PROPOSAL_APPEND_GT = True
   model = build_model(cfg)
   print(model)
-  cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/GID/output_retina_res101_Res50_2x/model_final.pth") 
+  cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/data/model_0044999.pth") 
   predictor = DefaultPredictor(cfg) 
   outsputs = predictor(im)
 
   pred_classes = outsputs["instances"].pred_classes
   pred_boxes = outsputs["instances"].pred_boxes
 	#在原图上画出检测结果
-  v = Visualizer(im[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1)
-  v = v.draw_instance_predictions(outsputs["instances"].to("cpu"))
+  v = Visualizer(im[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=0.5,instance_mode=ColorMode.IMAGE_BW)
+  v = v.draw_instance_predictions(outsputs["instances"].to("cpu"),0.5)
+
   plt.figure(figsize=(width/dpi, height/dpi), dpi=dpi)
   plt.axis('off')
   plt.subplots_adjust(top = 1, bottom = 0, right = 1, left = 0, hspace = 0, wspace = 0)

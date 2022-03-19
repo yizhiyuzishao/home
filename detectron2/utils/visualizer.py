@@ -380,7 +380,7 @@ class Visualizer:
         self._instance_mode = instance_mode
         self.keypoint_threshold = _KEYPOINT_THRESHOLD
 
-    def draw_instance_predictions(self, predictions):
+    def draw_instance_predictions(self, predictions,score_threshold = None):
         """
         Draw instance-level prediction results on an image.
 
@@ -397,6 +397,14 @@ class Visualizer:
         classes = predictions.pred_classes.tolist() if predictions.has("pred_classes") else None
         labels = _create_text_labels(classes, scores, self.metadata.get("thing_classes", None))
         keypoints = predictions.pred_keypoints if predictions.has("pred_keypoints") else None
+
+        if score_threshold != None:
+             top_id = np.where(scores.numpy()>score_threshold)[0].tolist()
+             scores = torch.tensor(scores.numpy()[top_id])
+             boxes.tensor = torch.tensor(boxes.tensor.numpy()[top_id])
+             classes = [classes[ii] for ii in top_id]
+             labels = [labels[ii] for ii in top_id]
+
 
         if predictions.has("pred_masks"):
             masks = np.asarray(predictions.pred_masks)

@@ -2,7 +2,7 @@ _BASE_: "../Base-RetinaNet.yaml"
 INPUT:
   MIN_SIZE_TRAIN: (800,)
 MODEL:
-  WEIGHTS: "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res101/output_1x_smooth_l1/model_final.pth"
+  #WEIGHTS: "/home/ps/DiskA/project/GZY1/data/101model_final.pth"
   RESNETS:
     DEPTH: 101
   RETINANET:

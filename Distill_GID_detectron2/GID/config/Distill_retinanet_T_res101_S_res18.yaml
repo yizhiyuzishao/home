@@ -3,11 +3,11 @@ INPUT:
 MODEL:
   META_ARCHITECTURE: "DistillGID"
 DATASETS:
-  TRAIN: ("coco_2017_train",)
-  TEST: ("coco_2017_val",)
+  TRAIN: ("coco_train",)
+  TEST: ("coco_val",)
 DISTILL:
-  TEACHER_YAML: "config/teacher/RetinaNet_Res101_1x_multi-scale.yaml"
-  STUDENT_YAML: "config/student/RetinaNet_2x_smooth_l1.yaml"
+  TEACHER_YAML: "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/GID/config/teacher/RetinaNet_Res101_1x_smooth_l1.yaml"
+  STUDENT_YAML: "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/GID/config/student/Retinanet-18.yaml"
   GID:
     GI_MODE: "ALL"              # in ["all", "pos", "semi_pos", "neg"]
     GI_NMS_THRESH: 0.3
@@ -52,8 +52,12 @@ DISTILL:
       SMOOTH_L1_BETA: 0.0                       # only valid when MODE is "L1"
       WEIGHT: 1.0
 SOLVER:
-  IMS_PER_BATCH: 16
-  BASE_LR: 0.01
+  IMS_PER_BATCH: 4
+  BASE_LR: 0.002
+  MOMENTUM: 0.9
+  WEIGHT_DECAY: 0.0001
+  WEIGHT_DECAY_NORM: 0.0
+  GAMMA: 0.1
   STEPS: (120000, 160000)
   MAX_ITER: 180000
-OUTPUT_DIR: "output_retina_res101_Res50_2x_T_aug"
+OUTPUT_DIR: "output_retina_res101_Res18_2x"
