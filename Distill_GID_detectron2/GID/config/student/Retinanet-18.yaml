@@ -2,13 +2,13 @@ _BASE_: "../Base-RetinaNet.yaml"
 INPUT:
   MIN_SIZE_TRAIN: (800,)
 MODEL:
- # WEIGHTS: "/home/ps/DiskA/project/GZY1/data/18_model_final.pth"  
+ # WEIGHTS: "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res18/output_res18/model_final.pth"  
   RESNETS:
     DEPTH: 18
     RES2_OUT_CHANNELS: 64
   RETINANET:
     SMOOTH_L1_LOSS_BETA: 0.1
-    NUM_CLASSES : 8
+  #  NUM_CLASSES : 7
   ROI_HEADS:
     NMS_THRESH_TEST: 0.4
     SCORE_THRESH_TEST : 0.6 

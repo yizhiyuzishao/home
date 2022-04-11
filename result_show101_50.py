@@ -67,7 +67,7 @@ for im_file in os.listdir(im_folder):
   pred_boxes = outsputs["instances"].pred_boxes
 	#在原图上画出检测结果
   v = Visualizer(im[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=0.5,instance_mode=ColorMode.IMAGE_BW)
-  v = v.draw_instance_predictions(outsputs["instances"].to("cpu"),0.5)
+  v = v.draw_instance_predictions(outsputs["instances"].to("cpu"),0.7)
 
   plt.figure(figsize=(width/dpi, height/dpi), dpi=dpi)
   plt.axis('off')

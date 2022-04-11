@@ -15,7 +15,7 @@ Therefore, we recommend you to use detectron2 as an library and take
 this file as an example of how to use the library.
 You may want to write your own script with your datasets and other customizations.
 """
-
+import tensorboard
 import logging
 import os
 from collections import OrderedDict
@@ -41,12 +41,13 @@ from detectron2.modeling import GeneralizedRCNNWithTTA
 from detectron2.engine.defaults import build_model
 from detectron2.data import DatasetCatalog, MetadataCatalog
 from detectron2.data.datasets.coco import load_coco_json
-DATASET_ROOT = '/home/ps/DiskA/project/GZY1/detectron2/data/datasets/coco'
-ANN_ROOT = os.path.join(DATASET_ROOT , 'annontations')
+DATASET_ROOT = '/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/datasets/PCBdataset/'
+ANN_ROOT = os.path.join(DATASET_ROOT , 'Annotations')
+
 TRAIN_PATH = os.path.join(DATASET_ROOT, 'images')
 VAL_PATH = os.path.join(DATASET_ROOT, 'images')
-TRAIN_JSON = os.path.join(ANN_ROOT, 'train2022.json')
-VAL_JSON = os.path.join(ANN_ROOT, 'test2022.json')
+TRAIN_JSON = os.path.join(ANN_ROOT, 'PCBTRAIN.json')
+VAL_JSON = os.path.join(ANN_ROOT, 'PCBTRAIN.json')
 
 # DS data subset
 PREDEFINED_SPLITS_DATASET = {
@@ -151,8 +152,8 @@ def setup(args):
     cfg.INPUT.MIN_SIZE_TRAIN = (512, 768)
     cfg.INPUT.MIN_SIZE_TEST = 640
     cfg.INPUT.MIN_SIZE_TRAIN_SAMPLING = 'range'
-    ITERS_IN_ONE_EPOCH = int(3000/ cfg.SOLVER.IMS_PER_BATCH)
-    cfg.MODEL.WEIGHTS = "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res101/R-101.pkl"
+    ITERS_IN_ONE_EPOCH = int(10000/ cfg.SOLVER.IMS_PER_BATCH)
+    #cfg.MODEL.WEIGHTS = "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res101/R-101.pkl"
     cfg.SOLVER.MAX_ITER = (ITERS_IN_ONE_EPOCH * 12) - 1  # 12EPOCHS
     cfg.SOLVER.BASE_LR = 0.002  # initial learning rate
     cfg.SOLVER.MOMENTUM = 0.9  # optimizer
@@ -165,7 +166,7 @@ def setup(args):
     cfg.SOLVER.CHECKPOINT_PERIOD = ITERS_IN_ONE_EPOCH - 1
 
     cfg.TEST.EVAL_PERIOD = ITERS_IN_ONE_EPOCH
-    cfg.MODEL.RETINANET.NUM_CLASSES = 8
+    cfg.MODEL.RETINANET.NUM_CLASSES = 7
     cfg.freeze()
     default_setup(cfg, args)
     return cfg

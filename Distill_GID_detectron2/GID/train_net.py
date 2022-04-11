@@ -46,13 +46,13 @@ from gid.config import add_distill_cfg
 from detectron2.engine import HookBase
 from detectron2.data import DatasetCatalog, MetadataCatalog
 from detectron2.data.datasets.coco import load_coco_json
-DATASET_ROOT = '/home/ps/DiskA/project/GZY1/detectron2/data/datasets/coco'
-ANN_ROOT = os.path.join(DATASET_ROOT , 'annontations')
+DATASET_ROOT = '/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/datasets/PCBdataset/'
+ANN_ROOT = os.path.join(DATASET_ROOT , 'Annotations')
 
 TRAIN_PATH = os.path.join(DATASET_ROOT, 'images')
 VAL_PATH = os.path.join(DATASET_ROOT, 'images')
-TRAIN_JSON = os.path.join(ANN_ROOT, 'train2022.json')
-VAL_JSON = os.path.join(ANN_ROOT, 'test2022.json')
+TRAIN_JSON = os.path.join(ANN_ROOT, 'PCBTRAIN.json')
+VAL_JSON = os.path.join(ANN_ROOT, 'PCBTRAIN.json')
 
 # DS data subset
 PREDEFINED_SPLITS_DATASET = {
@@ -223,7 +223,7 @@ def setup(args):
     """
     cfg = get_cfg()
     cfg = add_distill_cfg(cfg)
-    cfg.merge_from_file("/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/GID/config/Distill_retinanet_T_res101_S_res18.yaml")
+    cfg.merge_from_file("/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/GID/config/Distill_RetinaNet_T_Res101_S_Res50_2x.yaml")
 
     cfg.merge_from_list(args.opts)
     cfg.DATASETS.TRAIN = ("coco_train",)
@@ -233,6 +233,8 @@ def setup(args):
     cfg.DISTILL.STUDENT_CFG.merge_from_file(cfg.DISTILL.STUDENT_YAML)
     #cfg.DISTILL.TEACHER_CFG.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res101/output_1x_smooth_l1/model_final.pth") 
     #cfg.DISTILL.STUDENT_CFG.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res50/output_2x_smooth_l1/model_final.pth") 
+    
+   # cfg.DISTILL.STUDENT_CFG.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/GID/output_retina_res101_Res50_2x/model_0074999.pth")
     cfg.TEST.EVAL_PERIOD = 5000
     cfg.SOLVER.IMS_PER_BATCH = 4
     cfg.DATALOADER.NUM_WORKERS = 10

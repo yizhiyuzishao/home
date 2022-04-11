@@ -14,11 +14,9 @@ from detectron2.engine import DefaultPredictor
 from detectron2.config import get_cfg
 from detectron2.utils.visualizer import Visualizer
 from detectron2.utils.visualizer import ColorMode
-from detectron2.data import MetadataCatalog
 from detectron2.data import DatasetCatalog, MetadataCatalog
 from detectron2.data.datasets.coco import load_coco_json
 from Distill_GID_detectron2.GID.gid.config import add_distill_cfg
-from  detectron2.engine.defaults import DefaultTrainer
 DATASET_ROOT = '/home/ps/DiskA/project/GZY1/detectron2/data/datasets/coco'
 ANN_ROOT = os.path.join(DATASET_ROOT , 'annontations')
 

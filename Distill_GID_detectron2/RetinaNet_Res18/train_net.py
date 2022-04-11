@@ -20,7 +20,7 @@ import logging
 import os
 from collections import OrderedDict
 import torch
-
+import tensorboard
 import detectron2.utils.comm as comm
 from detectron2.checkpoint import DetectionCheckpointer
 from detectron2.config import get_cfg
@@ -37,16 +37,17 @@ from detectron2.evaluation import (
     SemSegEvaluator,
     verify_results,
 )
+#git://github.com/facebookresearch/detectron2.git
 from detectron2.modeling import GeneralizedRCNNWithTTA
 from detectron2.data import DatasetCatalog, MetadataCatalog
 from detectron2.data.datasets.coco import load_coco_json
-DATASET_ROOT = '/home/ps/DiskA/project/GZY1/detectron2/data/datasets/coco'
-ANN_ROOT = os.path.join(DATASET_ROOT , 'annontations')
+DATASET_ROOT = '/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/datasets/PCBdataset/'
+ANN_ROOT = os.path.join(DATASET_ROOT , 'Annotations')
 
 TRAIN_PATH = os.path.join(DATASET_ROOT, 'images')
 VAL_PATH = os.path.join(DATASET_ROOT, 'images')
-TRAIN_JSON = os.path.join(ANN_ROOT, 'train2022.json')
-VAL_JSON = os.path.join(ANN_ROOT, 'test2022.json')
+TRAIN_JSON = os.path.join(ANN_ROOT, 'PCBTRAIN.json')
+VAL_JSON = os.path.join(ANN_ROOT, 'PCBTRAIN.json')
 
 # DS data subset
 PREDEFINED_SPLITS_DATASET = {
@@ -142,7 +143,7 @@ def setup(args):
     """
     cfg = get_cfg()
     # cfg.merge_from_file(args.config_file)
-    cfg.merge_from_file("/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res50/config/Retinanet-18.yaml")
+    cfg.merge_from_file("/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res18/config/Retinanet-18.yaml")
     cfg.merge_from_list(args.opts)
     cfg.DATASETS.TRAIN = ("coco_train",)
     cfg.DATASETS.TEST = ("coco_val",)
@@ -154,7 +155,7 @@ def setup(args):
     cfg.INPUT.MIN_SIZE_TEST = 640
     cfg.INPUT.MIN_SIZE_TRAIN_SAMPLING = 'range'
     ITERS_IN_ONE_EPOCH = int(10000 /cfg.SOLVER.IMS_PER_BATCH)
-    cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/output_res18/model_final.pth") 
+    #cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/output_res18/model_final.pth") 
     #cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/model_final_bfca0b.pkl") 
     #cfg.MODEL.WEIGHTS = "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/RetinaNet_Res50/R-50.pkl"
     cfg.SOLVER.MAX_ITER = (ITERS_IN_ONE_EPOCH * 12) - 1  # 12EPOCHS
@@ -169,7 +170,7 @@ def setup(args):
     cfg.SOLVER.CHECKPOINT_PERIOD = ITERS_IN_ONE_EPOCH - 1
 
     cfg.TEST.EVAL_PERIOD = ITERS_IN_ONE_EPOCH
-    cfg.MODEL.RETINANET.NUM_CLASSES = 8
+    cfg.MODEL.RETINANET.NUM_CLASSES = 7
     cfg.freeze()
     default_setup(cfg, args)
     return cfg

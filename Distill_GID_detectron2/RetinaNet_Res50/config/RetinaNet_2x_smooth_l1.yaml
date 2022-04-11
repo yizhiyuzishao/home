@@ -2,7 +2,7 @@ _BASE_: "Base-RetinaNet.yaml"
 INPUT:
   MIN_SIZE_TRAIN: (800,)
 MODEL:
-  WEIGHTS: "/home/ps/DiskA/project/GZY1/model_final_bfca0b.pkl"
+ # WEIGHTS: "/home/ps/DiskA/project/GZY1/data/R-50.pkl"
   RESNETS:
     DEPTH: 50
   RETINANET:

@@ -5,8 +5,15 @@
     <mapping directory="$PROJECT_DIR$/Dilation-FasterRCNN" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Dilation_FasterRCNN" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Distill_GID_detectron2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/PaddleOCR" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/PyQt5-YOLOv5" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/RepDistiller" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/TextRecognitionDataGenerator" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/chinese_ocr" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/detectron2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/detectron2-main" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/dsig" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pyocr" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pytorch_qat" vcs="Git" />
   </component>
 </project>
