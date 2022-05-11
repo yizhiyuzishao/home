@@ -19,29 +19,8 @@ from detectron2.data import DatasetCatalog, MetadataCatalog
 from detectron2.data.datasets.coco import load_coco_json
 from Distill_GID_detectron2.GID.gid.config import add_distill_cfg
 from  detectron2.engine.defaults import DefaultTrainer
-DATASET_ROOT = '/home/ps/DiskA/project/GZY1/detectron2/data/datasets/coco'
-ANN_ROOT = os.path.join(DATASET_ROOT , 'annontations')
-
-TRAIN_PATH = os.path.join(DATASET_ROOT, 'images')
-VAL_PATH = os.path.join(DATASET_ROOT, 'images')
-TRAIN_JSON = os.path.join(ANN_ROOT, 'train2022.json')
-VAL_JSON = os.path.join(ANN_ROOT, 'test2022.json')
-
-# DS data subset
-PREDEFINED_SPLITS_DATASET = {
-    "coco_train": (TRAIN_PATH, TRAIN_JSON),
-    "coco_test": (VAL_PATH, VAL_JSON),
-}
-im_folder= '/home/ps/DiskA/project/GZY1/detectron2/data/datasets/coco/images'
-save_folder = '/home/ps/DiskA/project/GZY1/output'
-# register dataset
-def plain_register_dataset():
-    # register dataset to dataset catalog,register metadata to metadata catalog and set attribute
-    DatasetCatalog.register("coco_train", lambda: load_coco_json(TRAIN_JSON, TRAIN_PATH))
-    MetadataCatalog.get("coco_train").set(json_file=TRAIN_JSON, image_root=TRAIN_PATH,evaluator_type="coco")
-    DatasetCatalog.register("coco_val", lambda: load_coco_json(VAL_JSON, VAL_PATH))
-    MetadataCatalog.get("coco_val").set(json_file=VAL_JSON, image_root=VAL_PATH,evaluator_type="coco")
-plain_register_dataset()
+im_folder= '/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/datasets/PCBdataset/images'
+save_folder = '/home/ps/DiskA/project/GZY1/OUTPUT'
 for im_file in os.listdir(im_folder):
   im = cv2.imread(os.path.join(im_folder,im_file))
   save_result_path = os.path.join(save_folder, im_file)
@@ -55,11 +34,12 @@ for im_file in os.listdir(im_folder):
   cfg.DISTILL.STUDENT_CFG.merge_from_file(cfg.DISTILL.STUDENT_YAML)
   cfg.MODEL.ROI_HEADS.NMS_THRESH_TEST = 0.4
   cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5  #模型阈值
-  cfg.MODEL.RETINANET.NUM_CLASSES = 8
+  cfg.DISTILL.TEACHER_CFG.MODEL.RETINANET.NUM_CLASSES = 7
+  cfg.DISTILL.STUDENT_CFG.MODEL.RETINANET.NUM_CLASSES = 7
   cfg.MODEL.ROI_HEADS.PROPOSAL_APPEND_GT = True
+  cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/result/101-50/PCB/model_final.pth")  
   model = build_model(cfg)
   print(model)
-  cfg.MODEL.WEIGHTS = os.path.join(cfg.OUTPUT_DIR, "/home/ps/DiskA/project/GZY1/data/101-50model_final.pth") 
   predictor = DefaultPredictor(cfg) 
   outsputs = predictor(im)
 

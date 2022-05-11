@@ -4,11 +4,11 @@ from detectron2.config import CfgNode, get_cfg
 def add_distill_cfg(cfg: CfgNode) -> CfgNode:
     cfg.DISTILL = CfgNode()
 
-    cfg.DISTILL.TEACHER_YAML = "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/GID/config/teacher/RetinaNet_Res101_1x_smooth_l1.yaml"
+    cfg.DISTILL.TEACHER_YAML = ""
     cfg.DISTILL.TEACHER_CFG = get_cfg()
     cfg.DISTILL.TEACHER_CFG.MODEL.OUTPUTS = ["images", "p3", "p4", "p5", "p6", "p7", "gt_labels", "proposal", "cls_logits", "reg_deltas", "anchors"]
     cfg.MODEL.OUTPUTS = ["images", "p3", "p4", "p5", "p6", "p7", "gt_labels", "proposal", "cls_logits", "reg_deltas", "anchors"]
-    cfg.DISTILL.STUDENT_YAML = "/home/ps/DiskA/project/GZY1/Distill_GID_detectron2/GID/config/student/Retinanet-18.yaml"
+    cfg.DISTILL.STUDENT_YAML = ""
     cfg.DISTILL.STUDENT_CFG = get_cfg()
     cfg.DISTILL.STUDENT_CFG.MODEL.OUTPUTS = ["images", "p3", "p4", "p5", "p6", "p7", "gt_labels", "losses", "proposal", "cls_logits", "reg_deltas", "anchors"]
 

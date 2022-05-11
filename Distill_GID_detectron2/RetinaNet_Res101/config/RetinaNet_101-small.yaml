@@ -1,0 +1,18 @@
+_BASE_: "Base-RetinaNet.yaml"
+INPUT:
+  MIN_SIZE_TRAIN: (800,)
+MODEL:
+ # WEIGHTS: "/home/ps/DiskA/project/GZY1/result/R-101.pkl"
+  RESNETS:
+    DEPTH: 101
+  RETINANET:
+    SMOOTH_L1_LOSS_BETA: 0.1
+  ROI_HEADS:
+    NMS_THRESH_TEST: 0.4
+    SCORE_THRESH_TEST : 0.6
+SOLVER:
+  IMS_PER_BATCH: 16
+  BASE_LR: 0.001 # Note that RetinaNet uses a different default learning rate
+  STEPS: (120000, 160000)
+  MAX_ITER: 180000
+OUTPUT_DIR: "/home/ps/DiskA/project/GZY1/result/101/small"

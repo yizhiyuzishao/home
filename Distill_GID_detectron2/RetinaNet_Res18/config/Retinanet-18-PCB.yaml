@@ -1,0 +1,20 @@
+_BASE_: "Base-RetinaNet.yaml"
+INPUT:
+  MIN_SIZE_TRAIN: (800,)
+MODEL:
+  #WEIGHTS: "/home/ps/DiskA/project/GZY1/result/18/PCB/model_final.pth"
+  RESNETS:
+    DEPTH: 18
+    RES2_OUT_CHANNELS: 64
+  RETINANET:
+    SMOOTH_L1_LOSS_BETA: 0.1
+    NUM_CLASSES : 7
+  ROI_HEADS:
+    NMS_THRESH_TEST: 0.4
+    SCORE_THRESH_TEST : 0.6
+SOLVER:
+  IMS_PER_BATCH: 4
+  BASE_LR: 0.01  # Note that RetinaNet uses a different default learning rate
+  STEPS: (120000, 160000)
+  MAX_ITER: 180000
+OUTPUT_DIR: '/home/ps/DiskA/project/GZY1/result/18/PCB'

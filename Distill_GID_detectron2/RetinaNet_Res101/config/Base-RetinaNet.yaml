@@ -12,9 +12,12 @@ MODEL:
     IOU_THRESHOLDS: [0.4, 0.5]
     IOU_LABELS: [0, -1, 1]
     SMOOTH_L1_LOSS_BETA: 0.0
+  ROI_HEADS:
+    NMS_THRESH_TEST: 0.4
+    SCORE_THRESH_TEST: 0.5 
 DATASETS:
-  TRAIN: ("coco_train",)
-  TEST: ("coco_val",)
+  TRAIN: ("coco_train",) # 修改与上面一致
+  TEST: ("coco_val",) # 修改与上面一致
 SOLVER:
   IMS_PER_BATCH: 16
   BASE_LR: 0.01  # Note that RetinaNet uses a different default learning rate
